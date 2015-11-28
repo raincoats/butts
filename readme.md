@@ -1,7 +1,5 @@
 #butts.py
 
-This is just a python module I use for formatting output. I can't take a screenshot right now for whatever reason, but you should be able to see them by doing this:
+This is just a python module I use for formatting output. I have a few other functions in there, like `which()` which works like UNIX `which` (stolen from stackoverflow tho), and `classdump()`, which I think sort of works like a formatted `dir()`, but I don't know python too well so I don't know.
 
-    $ git clone https://github.com/raincoats/butts.py
-    $ cd butts
-    $ python -c 'import butts; butts.test()'
+![Example of the formatting functions](http://i.imgur.com/O9hTc0p.png)

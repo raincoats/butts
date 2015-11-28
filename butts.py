@@ -23,7 +23,6 @@ cli_classdump_key = "\033[38;5;097m"
 cli_classdump_val = "\033[38;5;103m"
 
 
-
 def stderr(message):
 	sys.stderr.write(message+"\n")
 	sys.stderr.flush()
@@ -81,9 +80,6 @@ def my_pain(message, e=1):
 	error(array_to_string(message))
 	sys.exit(e)
 
-
-
-
 def classdump(classs):
 	# format and print the output of dir(some_class)
 	from pprint import pprint
@@ -114,9 +110,6 @@ def classdump(classs):
 		sys.stderr.flush()
 
 
-
-
-
 # http://stackoverflow.com/questions/5226958/
 def which(file):
 	for path in os.environ["PATH"].split(os.pathsep):
@@ -125,7 +118,7 @@ def which(file):
 	return False
 
 
-if __name__ == "__main__":
+def test():
 	debuggo_XL('Testing formatting functions:')
 	stderr     ('stderr')
 	stdout     ('stdout')
@@ -135,3 +128,7 @@ if __name__ == "__main__":
 	good_XL    ('good_XL')
 	debuggo    ('debuggo')
 	debuggo_XL ('debuggo_XL')
+
+
+if __name__ == "__main__":
+	test()

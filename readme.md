@@ -4,7 +4,7 @@ This is just a python module I use for formatting output. I have a few other fun
 
 ### Formatting example:
 
-![Example of the formatting functions](http://i.imgur.com/O9hTc0p.png)
+![Example of the formatting functions](http://i.imgur.com/gCAUGtX.png)
 
 ### Class dump thingy example:
 

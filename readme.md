@@ -8,4 +8,4 @@ This is just a python module I use for formatting output. I have a few other fun
 
 ### Class dump thingy example:
 
-![Example of the classdump function](http://i.imgur.com/TowqMuW.png)
+![Example of the classdump function](http://i.imgur.com/aIMqHLG.png)

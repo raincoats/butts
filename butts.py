@@ -77,7 +77,7 @@ def error_message_parse_array(message):
 	# it would come out like:
 	#   ./program.py: inputfile: permission denied
 	if not isinstance(message, types.StringTypes):
-		message = ': '.join(message)   # http://stackoverflow.com/questions/7221404/
+		message = ': '.join(message)   # stackoverflow/questions/7221404/
 	# if it's just a string, then return it as it was
 	return message
 
@@ -92,12 +92,90 @@ def my_pain(message, e=1):
 	error(error_message_parse_array(message))
 	sys.exit(e)
 
-# format the dir() function and remove all the weird __things__ __like__ __this__
+# ------------------------------------------------------------------------------
+
+# format the dir() function & remove all the weird __things__ __like__ __this__
 def dir_XL(obj_thing):
+
+	# we're making a nice formatted thing, so we need to know
+	# the length of the longest member, to get everything
+	# nicely aligned
+	longest = 0 #for now
+	dir_things = []
+
 	for i in dir(obj_thing):
-		print i
-		if not match('^__.*__$', i):
-			print i
+		if not match('^_', i):
+			dir_things.append(i)
+			longest = len(i) if (len(i) > longest) else longest
+
+	# assume an 80 char wide term
+	# TODO: use get_tty_size() to make nice cols
+	width = 80
+	rows  = 24
+
+	# this is the laziest shit
+	# this is the laziest shit
+	# this is the laziest shit
+	# this is the laziest shit
+	# this is the laziest shit
+	# this is the laziest shit
+	# this is the laziest shit
+	if longest < 37:
+		for i in range(0, len(dir_things), 2):
+			try:
+	# this is the laziest shit
+	# this is the laziest shit
+	# this is the laziest shit
+				print format("| %-36s | %-36s |" % (dir_things[i], 
+							                          dir_things[i+1]))
+					# this is the laziest shit
+			except IndexError:
+				#ARE YOU FUCKING READY FOR THIS
+				pass
+					# this is the laziest shit
+	# this is the laziest shit
+	# this is the laziest shit
+	# this is the laziest shit
+
+	else:
+		for i in dir_things:
+			print format("| %-80s |" % i)
+
+			# omfg am i serious right now
+
+
+
+# ------------------------------------------------------------------------------
+
+def get_tty_size():
+	# http://stackoverflow.com/questions/566746/
+    import os
+    env = os.environ
+    def ioctl_GWINSZ(fd):
+        try:
+            import fcntl, termios, struct, os
+            cr = struct.unpack('hh', fcntl.ioctl(fd, termios.TIOCGWINSZ,
+        '1234'))
+        except:
+            return
+        return cr
+    cr = ioctl_GWINSZ(0) or ioctl_GWINSZ(1) or ioctl_GWINSZ(2)
+    if not cr:
+        try:
+            fd = os.open(os.ctermid(), os.O_RDONLY)
+            cr = ioctl_GWINSZ(fd)
+            os.close(fd)
+        except:
+            pass
+    if not cr:
+        cr = (env.get('LINES', 25), env.get('COLUMNS', 80))
+
+        ### Use get(key[, default]) instead of a try/catch
+        #try:
+        #    cr = (env['LINES'], env['COLUMNS'])
+        #except:
+        #    cr = (25, 80)
+    return int(cr[1]), int(cr[0])
 
 
 def classdump(classs):

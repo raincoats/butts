@@ -6,6 +6,13 @@ This is just a python module I use for formatting output. I have a few other fun
 
 ![Example of the formatting functions](http://i.imgur.com/gCAUGtX.png)
 
+### dir_XL() example
+
+(it's literally just `dir()` but it formats the results and gets rid of all the \_\_weird\_\_ \_\_things\_\_ \_\_like\_\_ \_\_this\_\_)
+
+![dir_XL](http://i.imgur.com/ho4vchI.png)
+
+
 ### Class dump thingy example:
 
 ![Example of the classdump function](http://i.imgur.com/aIMqHLG.png)

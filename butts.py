@@ -5,18 +5,18 @@ import sys
 import types
 import errno
 import os
+from re import match
 
-# reset colours
-cli_rst = "\033[0m"
-
-cli_red = "\033[38;5;124m"
-cli_grn = "\033[38;5;034m"
-cli_blu = "\033[38;5;039m"
-
+cli_rst = "\033[0m"         # reset colours
+cli_red = "\033[38;5;124m"  # red
+cli_grn = "\033[38;5;034m"  # green
+cli_blu = "\033[38;5;039m"  # blue
+cli_yel = "\033[38;5;214m"  # yellow
 # brighter colours for XL messages
-cli_rxl = "\033[38;5;196m"
-cli_gxl = "\033[38;5;046m"
-cli_bxl = "\033[38;5;045m"
+cli_rxl = "\033[38;5;196m"  # bright red
+cli_gxl = "\033[38;5;046m"  # bright green
+cli_bxl = "\033[38;5;045m"  # bright blue
+cli_yxl = "\033[38;5;220m"  # bright yellow
 
 # for class dumps
 cli_classdump_key = "\033[38;5;097m"
@@ -32,34 +32,46 @@ def stdout(message):
 	sys.stdout.flush()
 
 def error(message):
-	message = array_to_string(message)
+	message = error_message_parse_array(message)
 	sys.stderr.write(cli_red+'[!] '+cli_rst+message+"\n")
 	sys.stderr.flush()
 
 def error_XL(message):
-	message = array_to_string(message)
+	message = error_message_parse_array(message)
 	sys.stderr.write(cli_rxl+'[!] '+message+cli_rst+"\n")
 	sys.stderr.flush()
 
 def good(message):
+	message = error_message_parse_array(message)
 	sys.stdout.write(cli_grn+'[$] '+cli_rst+message+"\n")
 	sys.stdout.flush()
 
 def good_XL(message):
+	message = error_message_parse_array(message)
 	sys.stdout.write(cli_gxl+'[$] '+message+cli_rst+"\n")
 	sys.stdout.flush()
 
+def warn(message):
+	message = error_message_parse_array(message)
+	sys.stdout.write(cli_yel+'[!] '+cli_rst+message+"\n")
+	sys.stdout.flush()
+
+def warn_XL(message):
+	message = error_message_parse_array(message)
+	sys.stdout.write(cli_yxl+'[!] '+message+cli_rst+"\n")
+	sys.stdout.flush()
+
 def debuggo(message):
-	message = array_to_string(message)
+	message = error_message_parse_array(message)
 	sys.stderr.write(cli_blu+'[+] '+cli_rst+message+"\n")
 	sys.stderr.flush()
 
 def debuggo_XL(message):
-	# extra blue for extra important messages
+	message = error_message_parse_array(message)
 	sys.stderr.write(cli_bxl+'[+] '+message+cli_rst+"\n")
 	sys.stderr.flush()
 
-def array_to_string(message):
+def error_message_parse_array(message):
 	# if it's a list we put all the values together with a ": ", like if you had:
 	#   ["./program.py", "inputfile", "permission denied"],
 	# it would come out like:
@@ -76,14 +88,23 @@ def posix_error(e):
 
 def my_pain(message, e=1):
 	# just a normal error function really, with an added exit value thing,
-	# and this one supports error arrays (see array_to_string)
-	error(array_to_string(message))
+	# and this one supports error arrays (see error_message_parse_array)
+	error(error_message_parse_array(message))
 	sys.exit(e)
+
+# format the dir() function and remove all the weird __things__ __like__ __this__
+def dir_XL(obj_thing):
+	for i in dir(obj_thing):
+		print i
+		if not match('^__.*__$', i):
+			print i
+
 
 def classdump(classs):
 	# format and print the output of dir(some_class)
 	from pprint import pprint
 	from inspect import getmembers
+	from re import match
 	classbits = getmembers(classs)
 	#pprint(getmembers(classs))
 	format_string = {}
@@ -101,13 +122,16 @@ def classdump(classs):
 		format_string[key] = val
 	
 	for i in format_string:
-		sys.stderr.write(
-			format("%s[class] %20s:%s %s%s%s\n" % (
-				cli_classdump_key, i, cli_rst,
-				cli_classdump_val, format_string[i], cli_rst
-			))
-		)
-		sys.stderr.flush()
+		# get rid of keys like __whatever__,
+		# and vals like <stupid thing at 0xf38fae3e>
+		if not match('__$', i):# or match('^<.*>$', i):
+			sys.stderr.write(
+				format("%s[class] %20s:%s %s%s%s\n" % (
+					cli_classdump_key, i, cli_rst,
+					cli_classdump_val, format_string[i], cli_rst
+				))
+			)
+			sys.stderr.flush()
 
 
 # http://stackoverflow.com/questions/5226958/
@@ -117,7 +141,6 @@ def which(file):
 			return os.path.join(path, file)
 	return False
 
-
 def test():
 	debuggo_XL('Testing formatting functions:')
 	stderr     ('stderr')
@@ -126,6 +149,8 @@ def test():
 	error_XL   ('error_XL')
 	good       ('good')
 	good_XL    ('good_XL')
+	warn       ('warn')
+	warn_XL    ('warn_XL')
 	debuggo    ('debuggo')
 	debuggo_XL ('debuggo_XL')
 

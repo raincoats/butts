@@ -50,8 +50,8 @@ if __name__ == "__main__":
 	debuggo("to use, put this in your ~/.pythonrc or whatever:")
 	stdout("")
 	stdout("import sys")
-	stdout("import ps1")
-	stdout("sys.ps1 = ps1.python_ps1()")
+	stdout("import butts.ps1")
+	stdout("sys.ps1 = butts.ps1.python_ps1()")
 	stdout("")
 	debuggo("(that should hopefully work? idk)")
 

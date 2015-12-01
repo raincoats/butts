@@ -31,44 +31,44 @@ def stdout(message):
 	sys.stdout.write(message+"\n")
 	sys.stdout.flush()
 
-def error(message):
+def error(message, eol="\n"):
 	message = error_message_parse_array(message)
-	sys.stderr.write(cli_red+'[!] '+cli_rst+message+"\n")
+	sys.stderr.write(cli_red+'[!] '+cli_rst+message+eol)
 	sys.stderr.flush()
 
-def error_XL(message):
+def error_XL(message, eol="\n"):
 	message = error_message_parse_array(message)
-	sys.stderr.write(cli_rxl+'[!] '+message+cli_rst+"\n")
+	sys.stderr.write(cli_rxl+'[!] '+message+cli_rst+eol)
 	sys.stderr.flush()
 
-def good(message):
+def good(message, eol="\n"):
 	message = error_message_parse_array(message)
-	sys.stdout.write(cli_grn+'[$] '+cli_rst+message+"\n")
+	sys.stdout.write(cli_grn+'[$] '+cli_rst+message+eol)
 	sys.stdout.flush()
 
-def good_XL(message):
+def good_XL(message, eol="\n"):
 	message = error_message_parse_array(message)
-	sys.stdout.write(cli_gxl+'[$] '+message+cli_rst+"\n")
+	sys.stdout.write(cli_gxl+'[$] '+message+cli_rst+eol)
 	sys.stdout.flush()
 
-def warn(message):
+def warn(message, eol="\n"):
 	message = error_message_parse_array(message)
-	sys.stdout.write(cli_yel+'[!] '+cli_rst+message+"\n")
+	sys.stdout.write(cli_yel+'[!] '+cli_rst+message+eol)
 	sys.stdout.flush()
 
-def warn_XL(message):
+def warn_XL(message, eol="\n"):
 	message = error_message_parse_array(message)
-	sys.stdout.write(cli_yxl+'[!] '+message+cli_rst+"\n")
+	sys.stdout.write(cli_yxl+'[!] '+message+cli_rst+eol)
 	sys.stdout.flush()
 
-def debuggo(message):
+def debuggo(message, eol="\n"):
 	message = error_message_parse_array(message)
-	sys.stderr.write(cli_blu+'[+] '+cli_rst+message+"\n")
+	sys.stderr.write(cli_blu+'[+] '+cli_rst+message+eol)
 	sys.stderr.flush()
 
-def debuggo_XL(message):
+def debuggo_XL(message, eol="\n"):
 	message = error_message_parse_array(message)
-	sys.stderr.write(cli_bxl+'[+] '+message+cli_rst+"\n")
+	sys.stderr.write(cli_bxl+'[+] '+message+cli_rst+eol)
 	sys.stderr.flush()
 
 def error_message_parse_array(message):

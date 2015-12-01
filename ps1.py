@@ -14,33 +14,30 @@
 	github.com/raincoats
 """
 
-
+# put in a number between 0 and 255, recieve the colour code.
 def ps1_colour(colour):
     ansi = "\033[38;5;"+str(colour)+"m"
     return "\001"+ansi+"\002"
 
+# normal ansi reset, used to remove the colour effect
 def ps1_reset():
     return "\001"+"\033[0m"+"\002"
 
-# this is just for the prompt but you can use it anywhere
-def hostname():
-	import platform
-	return platform.node()	
 
-def python_ps1():
-    prompt = ""
-    prompt += ps1_colour(198)
-    prompt += "["
-    prompt += ps1_colour(73)
-    prompt += hostname()
-    prompt += ps1_colour(198)
-    prompt += "]"
-    prompt += ps1_colour(30)
-    prompt += '--'
-    prompt += ps1_colour(96)
-    prompt += '> '
-    prompt += ps1_reset()
-    return prompt
+def python_ps1(prompt_phrase, colours = [198, 73, 30, 96] ):
+    ps1 = ""
+    ps1 += ps1_colour(colours[0])
+    ps1 += "["
+    ps1 += ps1_colour(colours[1])
+    ps1 += prompt_phrase
+    ps1 += ps1_colour(colours[0])
+    ps1 += "]"
+    ps1 += ps1_colour(colours[2])
+    ps1 += '--'
+    ps1 += ps1_colour(colours[3])
+    ps1 += '> '
+    ps1 += ps1_reset()
+    return ps1
 
 
 if __name__ == "__main__":

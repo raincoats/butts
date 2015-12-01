@@ -212,13 +212,6 @@ def classdump(classs):
 			sys.stderr.flush()
 
 
-# http://stackoverflow.com/questions/5226958/
-def which(file):
-	for path in os.environ["PATH"].split(os.pathsep):
-		if os.path.exists(os.path.join(path, file)):
-			return os.path.join(path, file)
-	return False
-
 def test():
 	debuggo_XL('Testing formatting functions:')
 	stderr     ('stderr')

@@ -48,7 +48,5 @@ if __name__ == "__main__":
 	stdout("")
 	stdout("import sys")
 	stdout("import butts.ps1")
-	stdout("sys.ps1 = butts.ps1.python_ps1()")
-	stdout("")
-	debuggo("(that should hopefully work? idk)")
+	stdout("sys.ps1 = butts.ps1.create()\n")
 

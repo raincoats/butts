@@ -24,7 +24,7 @@ def ps1_reset():
     return "\001"+"\033[0m"+"\002"
 
 
-def python_ps1(prompt_phrase, colours = [198, 73, 30, 96] ):
+def create(prompt_phrase, colours = [198, 73, 30, 96] ):
     ps1 = ""
     ps1 += ps1_colour(colours[0])
     ps1 += "["
@@ -43,7 +43,7 @@ def python_ps1(prompt_phrase, colours = [198, 73, 30, 96] ):
 if __name__ == "__main__":
 	from butts import debuggo,stdout
 	debuggo("this is what your ps1 could look like:")
-	stdout("\n"+python_ps1()+"\n")
+	stdout("\n"+create()+"\n")
 	debuggo("to use, put this in your ~/.pythonrc or whatever:")
 	stdout("")
 	stdout("import sys")

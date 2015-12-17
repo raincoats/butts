@@ -5,6 +5,7 @@ import sys
 import types
 import errno
 import os
+import datetime
 from re import match
 
 cli_rst = "\033[0m"         # reset colours
@@ -12,6 +13,7 @@ cli_red = "\033[38;5;124m"  # red
 cli_grn = "\033[38;5;034m"  # green
 cli_blu = "\033[38;5;039m"  # blue
 cli_yel = "\033[38;5;214m"  # yellow
+cli_gry = "\033[38;5;240m"  # gray
 # brighter colours for XL messages
 cli_rxl = "\033[38;5;196m"  # bright red
 cli_gxl = "\033[38;5;046m"  # bright green
@@ -70,6 +72,13 @@ def debuggo_XL(message, eol="\n"):
 	message = error_message_parse_array(message)
 	sys.stderr.write(cli_bxl+'[+] '+message+cli_rst+eol)
 	sys.stderr.flush()
+
+
+# gives you the time like [17/12/15 16:08]
+def logtime(colour=False):
+	format_string = "[%d/%m/%y %T]" if colour==False else (cli_gry+"[%d/%m/%y %T]"+cli_rst)
+	return datetime.datetime.now().strftime(format_string)
+
 
 def error_message_parse_array(message):
 	# if it's a list we put all the values together with a ": ", like if you had:

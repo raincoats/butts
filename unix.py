@@ -9,6 +9,17 @@
 	github.com/raincoats
 """
 
+# does a shell command. optionally returns the exit status of the command.
+# i know this is isn't worth making into a function really, but i put these
+# things here as sort of bookmarks for myself. i'm sick of doing the massive
+# subprocess.Popen("whatever").communicate commands
+def passthru(cmd, exit=False):
+    import commands
+    if exit:
+        return commands.getstatusoutput(cmd)
+    else:
+        return commands.getoutput(cmd)
+
 # returns the name of the computer it's running on
 # http://stackoverflow.com/questions/4271740
 def hostname():

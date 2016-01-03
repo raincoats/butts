@@ -86,7 +86,10 @@ def error_message_parse_array(message):
 	# it would come out like:
 	#   ./program.py: inputfile: permission denied
 	if not isinstance(message, types.StringTypes):
-		message = ': '.join(message)   # stackoverflow/questions/7221404/
+		try:
+			message = ': '.join(message)   # stackoverflow/questions/7221404/
+		except TypeError:
+			message = str(message)
 	# if it's just a string, then return it as it was
 	return message
 

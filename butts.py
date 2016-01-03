@@ -25,53 +25,49 @@ cli_classdump_key = "\033[38;5;097m"
 cli_classdump_val = "\033[38;5;103m"
 
 
+def _print_message(message, colour=cli_blu, full_colour=False, stdout=False, eol="\n", prefix='+', die=False):
+	if full_colour:
+		output = '%s[%s] %s%s%s' % (colour, prefix, message, cli_rst, eol)
+	else:
+		output = '%s[%s]%s %s%s' % (colour, prefix, cli_rst, message, eol)
+	if stdout:
+		stdout(output)
+	else:
+		stderr(output)
+	if die:
+		sys.exit(die) if type(die) is int else sys.exit(1)
+
 def stderr(message):
-	sys.stderr.write(message+"\n")
+	sys.stderr.write(message)
 	sys.stderr.flush()
 
 def stdout(message):
-	sys.stdout.write(message+"\n")
+	sys.stdout.write(message)
 	sys.stdout.flush()
 
-def error(message, eol="\n"):
-	message = error_message_parse_array(message)
-	sys.stderr.write(cli_red+'[!] '+cli_rst+message+eol)
-	sys.stderr.flush()
+def error(message, prefix='!', eol="\n", die=False):
+	_print_message(message, colour=cli_red, prefix=prefix, die=die, eol=eol)
 
-def error_XL(message, eol="\n"):
-	message = error_message_parse_array(message)
-	sys.stderr.write(cli_rxl+'[!] '+message+cli_rst+eol)
-	sys.stderr.flush()
+def error_XL(message, prefix='!', eol="\n", die=False):
+	_print_message(message, colour=cli_rxl, prefix=prefix, die=die, eol=eol, full_colour=True)
 
-def good(message, eol="\n"):
-	message = error_message_parse_array(message)
-	sys.stdout.write(cli_grn+'[$] '+cli_rst+message+eol)
-	sys.stdout.flush()
+def good(message, prefix='$', eol="\n"):
+	_print_message(message, colour=cli_grn, prefix=prefix, eol=eol)
 
-def good_XL(message, eol="\n"):
-	message = error_message_parse_array(message)
-	sys.stdout.write(cli_gxl+'[$] '+message+cli_rst+eol)
-	sys.stdout.flush()
+def good_XL(message, prefix='$', eol="\n"):
+	_print_message(message, colour=cli_gxl, prefix=prefix, eol=eol, full_colour=True)
 
-def warn(message, eol="\n"):
-	message = error_message_parse_array(message)
-	sys.stdout.write(cli_yel+'[!] '+cli_rst+message+eol)
-	sys.stdout.flush()
+def warn(message, prefix='!', eol="\n"):
+	_print_message(message, colour=cli_yel, prefix=prefix, eol=eol)
 
-def warn_XL(message, eol="\n"):
-	message = error_message_parse_array(message)
-	sys.stdout.write(cli_yxl+'[!] '+message+cli_rst+eol)
-	sys.stdout.flush()
+def warn_XL(message, prefix='!', eol="\n"):
+	_print_message(message, colour=cli_yxl, prefix=prefix, eol=eol, full_colour=True)
 
-def debuggo(message, eol="\n"):
-	message = error_message_parse_array(message)
-	sys.stderr.write(cli_blu+'[+] '+cli_rst+message+eol)
-	sys.stderr.flush()
+def debuggo(message, prefix='+', eol="\n"):
+	_print_message(message, colour=cli_blu, prefix=prefix, eol=eol)
 
-def debuggo_XL(message, eol="\n"):
-	message = error_message_parse_array(message)
-	sys.stderr.write(cli_bxl+'[+] '+message+cli_rst+eol)
-	sys.stderr.flush()
+def debuggo_XL(message, prefix='+', eol="\n"):
+	_print_message(message, colour=cli_bxl, prefix=prefix, eol=eol, full_colour=True)
 
 
 # gives you the time like [17/12/15 16:08]
@@ -80,18 +76,18 @@ def logtime(colour=False):
 	return datetime.datetime.now().strftime(format_string)
 
 
-def error_message_parse_array(message):
-	# if it's a list we put all the values together with a ": ", like if you had:
-	#   ["./program.py", "inputfile", "permission denied"],
-	# it would come out like:
-	#   ./program.py: inputfile: permission denied
+# if it's a list we put all the values together with a ": ", like if you had:
+#   ["./program.py", "inputfile", "permission denied"],
+# it would come out like:
+#   ./program.py: inputfile: permission denied
+def _array_join(message):
 	if not isinstance(message, types.StringTypes):
 		try:
-			message = ': '.join(message)   # stackoverflow/questions/7221404/
+			message = ': '.join(str(message))   # stackoverflow/questions/7221404/
 		except TypeError:
-			message = str(message)
+			pass
 	# if it's just a string, then return it as it was
-	return message
+	return str(message)
 
 def posix_error(e):
 	# returns stuff like "EACCES: Permission denied"
@@ -100,8 +96,8 @@ def posix_error(e):
 
 def my_pain(message, e=1):
 	# just a normal error function really, with an added exit value thing,
-	# and this one supports error arrays (see error_message_parse_array)
-	error(error_message_parse_array(message))
+	# and this one supports error arrays (see _array_join)
+	error(_array_join(message))
 	sys.exit(e)
 
 # ------------------------------------------------------------------------------
